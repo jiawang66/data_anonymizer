@@ -17,7 +17,7 @@ clc, clear, close all
 %% initialization
 
 % ----- set path ----------------------------------------------------------
-parentFolderName = 'Epilepsy_20221112';
+parentFolderName = 'SPICE_DATA_221130';
 dataDir = fullfile('/data/share', parentFolderName);            % path of the data
 processFolder = fullfile('/data/share/temp', parentFolderName); % path of the data after anony
 
@@ -25,7 +25,7 @@ pythonPath = '/home/jiawong/anaconda3/bin/python3';             % path of the py
 pyfilePath = 'dat_anonymizer.py';                               % path of the python file
 
 % ----- set the parameters for data transfer ------------------------------
-host = '120.0.0.1';  % IP host
+host = '127.0.0.1';  % IP host
 port = '22';         % Port number
 user = 'username';   % username
 passwd = 'passwd';   % Password
@@ -63,7 +63,7 @@ for idx =1:length(dataIDList)
         if ~exist(tarDir,'dir'); mkdir(tarDir); end
         
         % start anonymizer
-        if strcmpi(scanType, 'SPICE') == 0 && strcmpi(scanType, 'MRS') == 0
+        if ~contains(lower(scanName), 'spice') && ~contains(lower(scanName), 'mrs')
             % ----- DICOM file --------------------------------------------
             copyfile(scanDir, tarDir);
             anonymizeDICOMs(tarDir, sprintf('anon_%s',tarName),1);
